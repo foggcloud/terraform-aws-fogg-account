@@ -1,1 +1,1 @@
-variable "name" {}
+variable "account_name" {}

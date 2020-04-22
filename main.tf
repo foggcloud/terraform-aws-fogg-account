@@ -1,9 +1,9 @@
 resource "aws_iam_account_alias" "this" {
-  account_alias = var.name
+  account_alias = var.account_name
 }
 
 resource "aws_s3_bucket" "terraform-remote-state" {
-  bucket = format("%s-%s", var.name, "terraform-remote-state")
+  bucket = format("%s-%s", var.account_name, "terraform-remote-state")
 
   acl = "private"
 
@@ -29,9 +29,13 @@ resource "aws_s3_bucket" "terraform-remote-state" {
 }
 
 resource "aws_dynamodb_table" "terraform-remote-state" {
-  name         = format("%s-%s", var.name, "terraform-remote-state")
+  name         = format("%s-%s", var.account_name, "terraform-remote-state")
   hash_key     = "LockID"
   billing_mode = "PAY_PER_REQUEST"
+
+  server_side_encryption {
+    enabled = true
+  }
 
   attribute {
     name = "LockID"
