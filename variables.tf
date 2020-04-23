@@ -1,1 +1,3 @@
-variable "account_name" {}
+variable "home_region" {}
+variable "client" {}
+variable "name" {}
