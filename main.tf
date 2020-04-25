@@ -28,6 +28,13 @@ resource "aws_s3_bucket" "terraform-remote-state" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "terraform-remote-state" {
+  bucket = aws_s3_bucket.terraform-remote-state.id
+
+  block_public_acls   = true
+  block_public_policy = true
+}
+
 resource "aws_dynamodb_table" "terraform-remote-state" {
   name         = format("%s-%s", local.account_name, "terraform-remote-state")
   hash_key     = "LockID"
